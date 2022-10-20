@@ -1,5 +1,27 @@
 <?php
 
+class debug
+{
+    private $level=0; // 0=None
+    
+    public function setLevel($level)
+    {
+        $this->level = $level;
+    }
+    
+    public function p($data, $level, $die=False)
+    {
+        if ($this->level > 0) {
+            if ($level <= $this->level) { 
+                echo "<pre>";
+                print_r($data);
+                echo "</pre>";
+                if ($die) die;
+            }
+        }
+    }   
+}
+
 class html
 {
     /**
