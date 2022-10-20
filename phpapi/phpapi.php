@@ -1,5 +1,28 @@
 <?php
 
+class html
+{
+    /**
+     * @param $name a html element with a name attribute that has the value of $name
+     * @param $xpath = new DOMXPath($xmlDoc)
+     */
+    public static function getElementByName($name, $xpath) 
+    {
+        return $xpath->query("//*[@name='$name']")->item(0);
+    }
+    
+    /*
+     * @param $id value of an id attribute
+     * @param $xpath = new DOMXPath($xmlDoc);
+     */
+    public static function getElementById($id, $xpath) 
+    {
+        return $xpath->query("//*[@id='$id']")->item(0);
+    }   
+    
+    
+}
+
 class requests
 {
     /**
