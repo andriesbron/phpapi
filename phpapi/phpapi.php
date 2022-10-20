@@ -116,7 +116,7 @@ class math
 }
 
 
-class randomMath
+class random
 {
     
     /**
