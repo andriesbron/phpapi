@@ -1,18 +1,52 @@
 <?php
 
-class phpapi
+class requests
 {
-    public static function isonline($host, $port=80)
+    /**
+     * @desc Checks if a server is online. Default check is on port 80.
+     * @param $host url or host to verify.
+     * @param $port port to check
+     */
+    public static function isOnLine($host, $port=80)
     {
-      $online=False;
-      $waitTimeoutInSeconds=1;
-      if ($fp=fsockopen(gethostbyname($url), $port, $errCode, $errStr, $waitTimeoutInSeconds)){
+        // @todo Check if an ip address was provided or not
+        $url_parts=parse_url($host);
+        
+        $online=False;
+        $waitTimeoutInSeconds=1;
+        if ($fp=fsockopen(gethostbyname($url_parts['host']), $port, $errCode, $errStr, $waitTimeoutInSeconds)){
         $online=True;
-      }
-      fclose($fp);
-      return $online;
+        }
+        fclose($fp);
+
+        return $online;
     }
-  
+    
+    /**
+     * @desc from stackoverflow Can't remember where...
+     */
+    public function getRedirectsToUri($uri)
+    {
+        $redirects = array();
+        $http = stream_context_create();
+        stream_context_set_params(
+            $http,
+            array(
+                "notification" => function() use (&$redirects)
+                {
+                    if (func_get_arg(0) === STREAM_NOTIFY_REDIRECTED) {
+                        $redirects[] = func_get_arg(2);
+                    }
+                }
+            )
+        );
+        file_get_contents($uri, false, $http);
+        return $redirects;
+    }
+}
+
+class math
+{
      /**
         @attention Did not test this function.
         @brief Calculates whether an unsigned int contains an even number of bits set to '1'.
