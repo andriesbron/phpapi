@@ -6,13 +6,16 @@ class requests
      * @param $host url or host to verify.
      * @param $port port to check
      */
-    public static function isOnLine($host, $port=80)
+    public static function isOnLine($url, $port=80)
     {
         // @todo Check if an ip address was provided or not
-        $url_parts=parse_url($host);
+        $url_parts=parse_url($url);
         
         $online=False;
         $waitTimeoutInSeconds=1;
+        $errCode=False;
+        $errStr=False;
+
         if ($fp=fsockopen(gethostbyname($url_parts['host']), $port, $errCode, $errStr, $waitTimeoutInSeconds)){
         $online=True;
         }
